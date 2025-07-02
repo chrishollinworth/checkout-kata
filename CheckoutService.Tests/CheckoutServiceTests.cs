@@ -172,5 +172,40 @@
             Assert.Equal(expectedTotal, result);
         }
 
+        [Fact]
+        public void TriggerSkuAAndSkuBOfferBoundary()
+        {
+            // Act
+            string testProductA = "A";
+            string testProductB = "B";
+            string testProductC = "C";
+            string testProductD = "D";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+
+            checkoutService.Scan(testProductB);
+            checkoutService.Scan(testProductB);
+            checkoutService.Scan(testProductB);
+
+            checkoutService.Scan(testProductC);
+            checkoutService.Scan(testProductC);
+
+            checkoutService.Scan(testProductD);
+            checkoutService.Scan(testProductD);
+
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + (SkuBOfferLogic.OfferPriceTrigger * 1) + this.testProducts.First(item => item.Sku == testProductA).UnitPrice + this.testProducts.First(item => item.Sku == testProductB).UnitPrice + (this.testProducts.First(item => item.Sku == testProductC).UnitPrice * 2) + (this.testProducts.First(item => item.Sku == testProductD).UnitPrice * 2);
+            Assert.Equal(expectedTotal, result);
+        }
     }
 }

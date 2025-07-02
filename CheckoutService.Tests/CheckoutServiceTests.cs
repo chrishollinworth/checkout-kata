@@ -34,7 +34,7 @@
         [Fact]
         public void AddUnknownItemNegative()
         {
-             // Act
+            // Act
             ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
 
             // Arrange
@@ -49,8 +49,8 @@
         [Fact]
         public void AddKnownItemPositive()
         {
-            string testProduct = "A";
             // Act
+            string testProduct = "A";
             ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
 
             // Arrange
@@ -59,6 +59,24 @@
 
             // Assert
             int expectedTotal = this.testProducts.Where(item => item.Sku == testProduct).First().UnitPrice;
+            Assert.Equal(expectedTotal, result);
+        }
+
+        [Fact]
+        public void TriggerSkuAOfferPositive()
+        {
+            // Act
+            string testProduct = "A";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = 130;
             Assert.Equal(expectedTotal, result);
         }
     }

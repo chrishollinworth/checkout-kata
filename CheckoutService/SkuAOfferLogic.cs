@@ -9,12 +9,10 @@ public class SkuAOfferLogic : IOfferLogic
 
     public int CalculateOffer(List<CheckoutItem> items)
     {
-        var itemExists = items.Select(item => item.Sku == OfferSkuTrigger).Any();
-        if (itemExists)
+        var itemExists = items.First(item => item.Sku == OfferSkuTrigger);
+        if (itemExists is not null)
         {
-            var item = items.Where(item => item.Sku == OfferSkuTrigger).First();
-            item.LineTotal = item.UnitPrice;
-            return item.UnitPrice;
+            itemExists.LineTotal = itemExists.Quantity % OfferQuantityTrigger == 0 ? (itemExists.Quantity / 3) * 130 : ((itemExists.Quantity / OfferQuantityTrigger) * OfferPriceTrigger) + ((itemExists.Quantity % OfferQuantityTrigger) * itemExists.UnitPrice);
         }
 
         return 0;

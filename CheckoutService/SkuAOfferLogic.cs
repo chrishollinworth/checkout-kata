@@ -3,9 +3,9 @@ using System.Linq;
 
 public class SkuAOfferLogic : IOfferLogic
 {
-    private const string OfferSkuTrigger = "A";
-    private const int OfferQuantityTrigger = 3;
-    private const int OfferPriceTrigger = 130;
+    public const string OfferSkuTrigger = "A";
+    public const int OfferQuantityTrigger = 3;
+    public const int OfferPriceTrigger = 130;
 
     public int CalculateOffer(List<CheckoutItem> items)
     {

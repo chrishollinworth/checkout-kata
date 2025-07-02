@@ -28,7 +28,6 @@
 
             // Assert
             Assert.Equal(0, result);
-
         }
 
         [Fact]
@@ -43,7 +42,6 @@
 
             // Assert
             Assert.Equal(0, result);
-
         }
 
         [Fact]
@@ -76,8 +74,53 @@
             var result = checkoutService.GetTotalPrice();
 
             // Assert
-            int expectedTotal = 130;
+            int expectedTotal = SkuAOfferLogic.OfferPriceTrigger;
             Assert.Equal(expectedTotal, result);
         }
+
+        [Fact]
+        public void TriggerSkuAOffer2Positive()
+        {
+            // Act
+            string testProduct = "A";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = SkuAOfferLogic.OfferPriceTrigger * 2;
+            Assert.Equal(expectedTotal, result);
+        }
+
+
+        [Fact]
+        public void TriggerSkuAOfferBoundaryPositive()
+        {
+            // Act
+            string testProduct = "A";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + this.testProducts.First(item => item.Sku == testProduct).UnitPrice;
+            Assert.Equal(expectedTotal, result);
+        }
+
     }
 }

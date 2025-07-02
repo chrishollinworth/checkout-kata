@@ -1,10 +1,13 @@
-﻿namespace CheckoutService.Tests;
-
-public class UnitTest1
+﻿namespace CheckoutService.Tests
 {
-    [Fact]
-    public void Test1()
+
+    public class CheckoutServiceTests
     {
 
+        [Fact]
+        public void EmptyOrder()
+        {
+
+        }
     }
 }

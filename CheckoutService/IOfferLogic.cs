@@ -2,6 +2,6 @@ namespace CheckoutService
 {
     public interface IOfferLogic
     {
-        int CalculateOffer(string item);
+        int CalculateOffer(List<CheckoutItem> items);
     }
 }

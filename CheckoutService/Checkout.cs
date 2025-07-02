@@ -27,7 +27,7 @@ namespace CheckoutService
 
             if (!this.items.Select(i => i.Sku == item).Any())
                 {
-                    this.items.Add(new CheckoutItem(item, 1, chosenProduct.UnitPrice, 0));
+                    this.items.Add(new CheckoutItem(chosenProduct.Sku, chosenProduct.UnitPrice, 1, 0));
                 }
                 else
                 {
@@ -41,7 +41,12 @@ namespace CheckoutService
 
         public int GetTotalPrice()
         {
-            return 0;
+            foreach (IOfferLogic offer in this.offersLogic)
+            {
+                offer.CalculateOffer(this.items);
+            }
+
+            return this.items.Sum(item => item.LineTotal);
         }
     }
 }

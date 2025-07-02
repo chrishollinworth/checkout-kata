@@ -1,10 +1,10 @@
 using CheckoutService;
 
-public class SkuAOfferLogic : IOfferLogic
+public class SkuBOfferLogic : IOfferLogic
 {
-    public const string OfferSkuTrigger = "A";
-    public const int OfferQuantityTrigger = 3;
-    public const int OfferPriceTrigger = 130;
+    public const string OfferSkuTrigger = "B";
+    public const int OfferQuantityTrigger = 2;
+    public const int OfferPriceTrigger = 45;
 
     public void CalculateOffer(List<CheckoutItem> items)
     {

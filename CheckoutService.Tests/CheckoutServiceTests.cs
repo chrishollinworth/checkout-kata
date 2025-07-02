@@ -15,6 +15,7 @@
         private List<IOfferLogic> offersLogic = new List<IOfferLogic>
         {
            new SkuAOfferLogic(),
+           new SkuBOfferLogic(),
         };
 
         [Fact]
@@ -142,6 +143,32 @@
 
             // Assert
             int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + this.testProducts.First(item => item.Sku == testProductA).UnitPrice + this.testProducts.First(item => item.Sku == testProductB).UnitPrice;
+            Assert.Equal(expectedTotal, result);
+        }
+
+        [Fact]
+        public void TriggerSkuAAndSkuBOffer()
+        {
+            // Act
+            string testProductA = "A";
+            string testProductB = "B";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+
+            checkoutService.Scan(testProductB);
+            checkoutService.Scan(testProductB);
+
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + (SkuBOfferLogic.OfferPriceTrigger * 1);
             Assert.Equal(expectedTotal, result);
         }
 

@@ -34,7 +34,7 @@ namespace CheckoutService
                     var updatedItem = this.items.Find(i => i.Sku == item);
                     if (updatedItem is not null)
                     {
-                        updatedItem.Quantity = updatedItem.Quantity++;
+                        updatedItem.Quantity++;
                     }
                 }
         }

@@ -62,6 +62,47 @@
         }
 
         [Fact]
+        public void AddKnownItemPositiveNoOffer()
+        {
+            // Act
+            string testProduct = "A";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProduct);
+            checkoutService.Scan(testProduct);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = this.testProducts.Where(item => item.Sku == testProduct).First().UnitPrice * 2;
+            Assert.Equal(expectedTotal, result);
+        }
+
+                [Fact]
+        public void AddKnownItemPositiveNoOfferMultiple()
+        {
+            // Act
+            string testProductA = "A";
+            string testProductB = "B";
+            string testProductC = "C";
+            string testProductD = "D";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductB);
+            checkoutService.Scan(testProductC);
+            checkoutService.Scan(testProductD);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = (this.testProducts.Where(item => item.Sku == testProductA).First().UnitPrice * 2) + this.testProducts.First(item => item.Sku == testProductB).UnitPrice + this.testProducts.First(item => item.Sku == testProductC).UnitPrice + this.testProducts.First(item => item.Sku == testProductD).UnitPrice;
+            Assert.Equal(expectedTotal, result);
+        }
+
+
+        [Fact]
         public void TriggerSkuAOfferPositive()
         {
             // Act

@@ -1,5 +1,4 @@
 using CheckoutService;
-using System.Linq;
 
 public class SkuAOfferLogic : IOfferLogic
 {
@@ -12,7 +11,8 @@ public class SkuAOfferLogic : IOfferLogic
         var itemExists = items.Find(item => item.Sku == OfferSkuTrigger);
         if (itemExists is not null)
         {
-            itemExists.LineTotal = itemExists.Quantity % OfferQuantityTrigger == 0 ? (itemExists.Quantity / OfferQuantityTrigger) * OfferPriceTrigger : ((itemExists.Quantity / OfferQuantityTrigger) * OfferPriceTrigger) + ((itemExists.Quantity % OfferQuantityTrigger) * itemExists.UnitPrice);
+            itemExists.LineTotal = itemExists.Quantity % OfferQuantityTrigger == 0 ? ((itemExists.Quantity / OfferQuantityTrigger) * OfferPriceTrigger) : ((itemExists.Quantity / OfferQuantityTrigger) * OfferPriceTrigger) + ((itemExists.Quantity % OfferQuantityTrigger) * itemExists.UnitPrice);
+            itemExists.OfferApplied = true;
         }
 
         return 0;

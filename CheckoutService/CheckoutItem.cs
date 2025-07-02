@@ -2,12 +2,13 @@ namespace CheckoutService
 {
     public class CheckoutItem
     {
-        public CheckoutItem(string sku, int unitprice, int quantity = 0, int linetotal = 0)
+        public CheckoutItem(string sku, int unitPrice, int quantity, int lineTotal, bool offerApplied)
         {
             this.Sku = sku;
-            this.UnitPrice = unitprice;
+            this.UnitPrice = unitPrice;
             this.Quantity = quantity;
-            this.LineTotal = linetotal;
+            this.LineTotal = lineTotal;
+            this.OfferApplied = offerApplied;
         }
 
         public string Sku { get; set; }
@@ -17,5 +18,7 @@ namespace CheckoutService
         public int Quantity { get; set; }
 
         public int LineTotal { get; set; }
+
+        public bool OfferApplied { get; set; }
     }
 }

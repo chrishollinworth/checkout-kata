@@ -99,7 +99,6 @@
             Assert.Equal(expectedTotal, result);
         }
 
-
         [Fact]
         public void TriggerSkuAOfferBoundaryPositive()
         {
@@ -119,6 +118,30 @@
 
             // Assert
             int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + this.testProducts.First(item => item.Sku == testProduct).UnitPrice;
+            Assert.Equal(expectedTotal, result);
+        }
+
+        [Fact]
+        public void TriggerSkuAOfferBoundaryMultiProducts()
+        {
+            // Act
+            string testProductA = "A";
+            string testProductB = "B";
+            ICheckout checkoutService = new Checkout(this.testProducts, this.offersLogic);
+
+            // Arrange
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductA);
+            checkoutService.Scan(testProductB);
+            var result = checkoutService.GetTotalPrice();
+
+            // Assert
+            int expectedTotal = (SkuAOfferLogic.OfferPriceTrigger * 2) + this.testProducts.First(item => item.Sku == testProductA).UnitPrice + this.testProducts.First(item => item.Sku == testProductB).UnitPrice;
             Assert.Equal(expectedTotal, result);
         }
 

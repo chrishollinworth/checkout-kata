@@ -25,28 +25,41 @@ namespace CheckoutService
                 return;
             }
 
-            if (!this.items.Select(i => i.Sku == item).Any())
+            if (this.items.Where(i => i.Sku == item).Any())
+            {
+                var updatedItem = this.items.Find(i => i.Sku == item);
+                if (updatedItem is not null)
                 {
-                    this.items.Add(new CheckoutItem(chosenProduct.Sku, chosenProduct.UnitPrice, 1, 0));
+                    updatedItem.Quantity++;
                 }
-                else
-                {
-                    var updatedItem = this.items.Find(i => i.Sku == item);
-                    if (updatedItem is not null)
-                    {
-                        updatedItem.Quantity++;
-                    }
-                }
+            }
+            else
+            {
+                this.items.Add(new CheckoutItem(chosenProduct.Sku, chosenProduct.UnitPrice, 1, 0, false));
+            }
         }
 
         public int GetTotalPrice()
         {
+            this.items = this.items.Select(lineItem =>
+            new CheckoutItem(
+                lineItem.Sku,
+                lineItem.UnitPrice,
+                lineItem.Quantity,
+                lineItem.LineTotal = this.CalculateLineTotal(lineItem.Quantity, lineItem.UnitPrice),
+                false)).ToList();
+
             foreach (IOfferLogic offer in this.offersLogic)
             {
                 offer.CalculateOffer(this.items);
             }
 
             return this.items.Sum(item => item.LineTotal);
+        }
+
+        private int CalculateLineTotal(int quantity, int unitPrice)
+        {
+            return quantity * unitPrice;
         }
     }
 }

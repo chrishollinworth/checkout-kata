@@ -1,0 +1,4 @@
+CheckoutService/obj/*
+CheckoutService.Tests/obj/*
+CheckoutService/bin/*
+CheckoutService.Tests/bin/*

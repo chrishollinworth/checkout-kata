@@ -1,13 +1,15 @@
-public class CheckoutProduct
+namespace CheckoutService
 {
-    public CheckoutProduct(string sku, int unitPrice)
+    public class CheckoutProduct
     {
-        this.Sku = sku;
-        this.UnitPrice = unitPrice;
+        public CheckoutProduct(string sku, int unitPrice)
+        {
+            this.Sku = sku;
+            this.UnitPrice = unitPrice;
+        }
+
+        public string Sku { get; set; }
+
+        public int UnitPrice { get; set; }
     }
-
-    public string Sku { get; set; }
-
-    public int UnitPrice { get; set; }
-
 }

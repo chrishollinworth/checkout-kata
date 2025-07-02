@@ -5,6 +5,7 @@ public class CheckoutProduct
         this.Sku = sku;
         this.UnitPrice = unitPrice;
     }
+
     public string Sku { get; set; }
 
     public int UnitPrice { get; set; }

@@ -6,3 +6,5 @@ dotnet sln add CheckoutService/CheckoutService.csproj
 dotnet sln add CheckoutService.Tests/CheckoutService.Tests.csproj
 
 dotnet add CheckoutService.Tests/CheckoutService.Tests.csproj reference CheckoutService/CheckoutService.csproj
+
+dotnet add package StyleCop.Analyzers

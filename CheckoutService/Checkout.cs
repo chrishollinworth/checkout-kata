@@ -4,33 +4,34 @@ namespace CheckoutService
 
     public class Checkout : ICheckout
     {
-        private List<CheckoutProduct> products = new List<CheckoutProduct>
-        {
-            new CheckoutProduct("A", 50),
-            new CheckoutProduct("B", 30),
-            new CheckoutProduct("C", 20),
-            new CheckoutProduct("D", 15),
-        };
-        private readonly List<CheckoutItem> items;
+        private readonly List<CheckoutProduct> products;
 
         private readonly List<IOfferLogic> offersLogic;
+
+        private List<CheckoutItem> items = new List<CheckoutItem>();
+
+        public Checkout(List<CheckoutProduct> products, List<IOfferLogic> offersLogic)
+        {
+            this.products = products;
+            this.offersLogic = offersLogic;
+        }
 
         public void Scan(string item)
         {
             // lookup unit price (assume if no price found do not add to basket)
-            var chosenProduct = products.Find(i => i.Sku == item);
+            var chosenProduct = this.products.Find(i => i.Sku == item);
             if (chosenProduct is null)
             {
                 return;
             }
 
-            if (!items.Select(i => i.Sku == item).Any())
+            if (!this.items.Select(i => i.Sku == item).Any())
                 {
-                    items.Add(new CheckoutItem(item, 1, chosenProduct.UnitPrice, 0));
+                    this.items.Add(new CheckoutItem(item, 1, chosenProduct.UnitPrice, 0));
                 }
                 else
                 {
-                    var updatedItem = items.Find(i => i.Sku == item);
+                    var updatedItem = this.items.Find(i => i.Sku == item);
                     if (updatedItem is not null)
                     {
                         updatedItem.Quantity = updatedItem.Quantity++;
